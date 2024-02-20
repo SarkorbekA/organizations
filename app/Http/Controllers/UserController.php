@@ -163,5 +163,3 @@ class UserController extends Controller
 // http://my-app.loc.uz/api/users/:user_id
 // domain/organizations/org_id/users
 // domain/organizations/org_id/users/user_id
-
-// Трейты
