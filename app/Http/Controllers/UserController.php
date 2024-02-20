@@ -31,8 +31,6 @@ class UserController extends Controller
     public function index(): JsonResponse
     {
 //        $users = User::all();
-//
-//        sleep(5);
 
         $users = cache()->remember('users', 120, function () {
             return User::all();
@@ -61,19 +59,6 @@ class UserController extends Controller
 //        UserSendSmsJob::dispatch($user);
 
         return new UserResource($user);
-
-
-        //        $user = $this->repository->createUser(new UserDTO(
-//            name: $validated['name'],
-//            surname: $validated['surname'],
-//            age: $validated['age'],
-//            email: $validated['email'],
-//        ));
-
-//        $user = $this->repository->createUser(UserDTO::fromArray($validated));
-//
-//        $user = User::query()->create($validated);
-
     }
 
     /**
@@ -81,16 +66,7 @@ class UserController extends Controller
      * @param User $user
      * @return UserResource
      */
-//    public function show(int $id): UserResource
-//    {
-//        $user = $this->repository->getUserById($id);
-//        if ($user === null){
-//            return response()->json()
-//        }
-//        return new UserResource($user);
-//    }
 
-//    public function show(User $user): UserResource
     public function show(int $id): UserResource|JsonResponse
     {
         $user = $this->repository->getUserById($id);
@@ -126,13 +102,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-//        $user = User::query()->find($id);
-//        if ($user === null) {
-//            return response()->json([
-//                'message' => 'Запись не найдена.'
-//            ]);
-//        }
-
         $user->delete();
 
         return response()->json([
@@ -158,16 +127,11 @@ class UserController extends Controller
             ], 400);
         }
 
-//        $users = $organization->users()->where('age', '>=', 16)->get();
-
-//        $users = $organization->users()->get();
-
-        $users = $organization->users;  // Collection // users()
+//
+        $users = $organization->users;
 
 
         return UserResource::collection($users);
-
-//        $users = User::query()->where('organization_id', $organization->id)->get();
     }
 
     public function getOrganizationUserById(
