@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fuelsensors', function (Blueprint $table) {
+        Schema::create('fuel_sensors', function (Blueprint $table) {
             $table->id();
             $table->integer('fuel_level');
             $table->string('status');
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fuelsensors');
+        Schema::dropIfExists('fuel_sensors');
     }
 };

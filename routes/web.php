@@ -20,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $user = User::query()->first();
     Cache::put('key_test', $user, 60);
-    $user = Cache::get('key_test', 'default');
+    $users = Cache::get('key_test', 'default');
 //    return 'hello';
-    return $user;
+    return $users;
 });
 

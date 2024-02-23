@@ -26,8 +26,7 @@ use Illuminate\Support\Facades\Route;
 //Route::delete('users/{id}', [\App\Http\Controllers\UserController::class, 'destroy']);
 
 Route::middleware(CheckClientHasApiToken::class)->group(function () {
-//    Route::apiResource('users', UserController::class);
-    Route::post('users/create/', [UserController::class, 'store']);
+    Route::post('users', [UserController::class, 'store']);
     Route::get('users', [UserController::class, 'index']);
     Route::get('users/{id}', [UserController::class, 'show']);
     Route::match(['put', 'patch'], 'users/{id}', [UserController::class, 'update']);

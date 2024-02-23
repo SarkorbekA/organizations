@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\IUserRepository;
 use App\DTO\UserDTO;
+use App\Exceptions\BusinessException;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Jobs\UserSendEmail;
@@ -27,7 +28,8 @@ class UserController extends Controller
 
     /**
      * Display a listing of the resource.
-     */
+     * @return JsonResponse
+ */
     public function index(): JsonResponse
     {
 //        $users = User::all();
@@ -46,17 +48,17 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      * @param UserRequest $request
      * @return UserResource
-     */
-    public function store(UserRequest $request): UserResource
+     * @throws BusinessException
+ */
+    public function store(UserRequest $request, CreateUserService $service): UserResource
     {
-        dd();
         $validated = $request->validated();
 
-        $service = new CreateUserService();
+//        $service = new CreateUserService();
         $user = $service->execute(UserDTO::fromArray($validated));
 
-//        UserSendEmail::dispatch($user);
-//        UserSendSmsJob::dispatch($user);
+        UserSendEmail::dispatch($user);
+        UserSendSmsJob::dispatch($user);
 
         return new UserResource($user);
     }
@@ -82,6 +84,9 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @param Request $request
+     * @param User $user
+     * @return UserResource
      */
     public function update(Request $request, User $user)
     {
