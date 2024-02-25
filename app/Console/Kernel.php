@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
 
-        $schedule->command(BirthdayCongrateCommand::class)->dailyAt('18:45');
+        $schedule->command(BirthdayCongrateCommand::class)->dailyAt('16:00');
     }
 
     /**

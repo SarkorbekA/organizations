@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\BirthdayGreetings;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Console\Command\Command as CommandAlias;
 
 class BirthdayCongrateCommand extends Command
@@ -13,29 +15,36 @@ class BirthdayCongrateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:birthday-init {--ids=>}';
+    protected $signature = 'app:birthday-init {--ids}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Send birthday greetings to users';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-
-        dd($this->option('ids'));
         $users = User::all();
-        foreach ($users as $user){
+        foreach ($users as $user) {
             $user->birthday = true;
             $user->save();
+            Mail::to($user->email)->send(new BirthdayGreetings($user));
         }
 
-//        return CommandAlias::SUCCESS;
+        $this->info('Congratulations emails sent successfully.');
+
         return CommandAlias::SUCCESS;
     }
 }
+
+
+
+
+//return CommandAlias::SUCCESS;
+
+

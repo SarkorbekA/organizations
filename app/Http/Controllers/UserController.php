@@ -57,8 +57,8 @@ class UserController extends Controller
 //        $service = new CreateUserService();
         $user = $service->execute(UserDTO::fromArray($validated));
 
-        UserSendEmail::dispatch($user);
-        UserSendSmsJob::dispatch($user);
+//        UserSendEmail::dispatch($user);
+//        UserSendSmsJob::dispatch($user);
 
         return new UserResource($user);
     }
@@ -84,18 +84,17 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param Request $request
-     * @param User $user
+     * @param UserRequest $request
+//     * @param User $user
      * @return UserResource
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, int $id)
+//    public function update(UserRequest $request, int $id)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:50',
-            'surname' => 'required|string|max:50',
-            'age' => 'required|integer|min:0',
-            'email' => 'required|email',
-        ]);
+
+        $validated = $request->validated();
+
+        $user = $this->repository->getUserById($id);
 
         $user->update($validated);
 
@@ -168,3 +167,12 @@ class UserController extends Controller
 // http://my-app.loc.uz/api/users/:user_id
 // domain/organizations/org_id/users
 // domain/organizations/org_id/users/user_id
+
+
+
+//        $validated = $request->validate([
+//            'name' => 'required|string|max:50',
+//            'surname' => 'required|string|max:50',
+//            'age' => 'required|integer|min:0',
+//            'email' => 'required|email',
+//        ]);
