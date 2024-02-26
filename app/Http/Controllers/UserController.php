@@ -29,7 +29,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      * @return JsonResponse
- */
+     */
     public function index(): JsonResponse
     {
 //        $users = User::all();
@@ -49,7 +49,7 @@ class UserController extends Controller
      * @param UserRequest $request
      * @return UserResource
      * @throws BusinessException
- */
+     */
     public function store(UserRequest $request, CreateUserService $service): UserResource
     {
         $validated = $request->validated();
@@ -85,11 +85,10 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      * @param UserRequest $request
-//     * @param User $user
+     * @param User $user
      * @return UserResource
      */
     public function update(UserRequest $request, int $id)
-//    public function update(UserRequest $request, int $id)
     {
 
         $validated = $request->validated();
@@ -103,14 +102,25 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @return JsonResponse
      */
-    public function destroy(User $user)
+    public function destroy(int $id): JsonResponse
     {
-        $user->delete();
+        $user = $this->repository->getUserById($id);
 
-        return response()->json([
-            'message' => 'Запись была успешна удалена.'
-        ]);
+
+        if ($user === null) {
+            $result = response()->json([
+                'message' => 'Такой записи не существует'
+            ], 400);
+        } else {
+            User::query()->find($id)->delete();
+            $result = response()->json([
+                'message' => 'Запись была успешна удалена'
+            ]);
+        }
+
+        return $result;
     }
 
     /**
@@ -167,7 +177,6 @@ class UserController extends Controller
 // http://my-app.loc.uz/api/users/:user_id
 // domain/organizations/org_id/users
 // domain/organizations/org_id/users/user_id
-
 
 
 //        $validated = $request->validate([
