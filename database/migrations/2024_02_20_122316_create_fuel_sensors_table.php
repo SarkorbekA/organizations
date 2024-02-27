@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('fuel_sensors', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->integer('fuel_level');
             $table->string('status');
+            $table->unsignedBigInteger('vehicle_id');
+            $table->foreign('vehicle_id')->references('id')->on('vehicles')->onDelete('cascade');
             $table->timestamps();
         });
     }

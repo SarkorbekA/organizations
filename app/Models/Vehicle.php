@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $color
  * @property int $id
  * @property int $year
+ * @property string $car_number
+ * @property int $organization_id
  */
 class Vehicle extends Model
 {
@@ -28,6 +30,8 @@ class Vehicle extends Model
         'model',
         'color',
         'year',
+        'car_number',
+        'organization_id',
     ];
 
     public function organization(): BelongsTo

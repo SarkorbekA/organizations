@@ -90,10 +90,10 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, int $id)
     {
-
         $validated = $request->validated();
 
         $user = $this->repository->getUserById($id);
+
 
         $user->update($validated);
 

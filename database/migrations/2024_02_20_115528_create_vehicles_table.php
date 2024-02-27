@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('model');
             $table->string('color');
             $table->integer('year');
+            $table->string('car_number');
             $table->unsignedBigInteger('organization_id');
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
             $table->timestamps();

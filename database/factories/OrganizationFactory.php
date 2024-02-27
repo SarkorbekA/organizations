@@ -23,6 +23,8 @@ class OrganizationFactory extends Factory
     {
         return [
             'name' =>  $this->faker->company,
+            'country' =>  $this->faker->country,
+            'address' =>  $this->faker->address,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

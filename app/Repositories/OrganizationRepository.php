@@ -21,6 +21,9 @@ class OrganizationRepository implements IOrganizationRepository
     {
         $organization = new Organization();
         $organization->name = $organizationDTO->getName();
+        $organization->country = $organizationDTO->getCountry();
+        $organization->address = $organizationDTO->getAddress();
+        $organization->save();
 
         return $organization;
     }

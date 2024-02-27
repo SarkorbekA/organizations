@@ -10,10 +10,14 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * @property string $name
  * @property int $id
-// * @property User[] $users
+ * @property string $name
+ * @property string $country
+ * @property string $address
  */
+
+// * @property User[] $users
+
 class Organization extends Model
 {
     use HasFactory, HasApiTokens, Notifiable;
@@ -25,6 +29,8 @@ class Organization extends Model
      */
     protected $fillable = [
         'name',
+        'country',
+        'address',
     ];
 
     public function users(): BelongsToMany

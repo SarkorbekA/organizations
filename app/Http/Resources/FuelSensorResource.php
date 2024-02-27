@@ -2,14 +2,14 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Vehicle;
+use App\Models\FuelSensor;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property Vehicle $resource
+ * @property FuelSensor $resource
  */
-class VehicleResource extends JsonResource
+class FuelSensorResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,11 +20,10 @@ class VehicleResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'model' => $this->resource->model,
-            'color' => $this->resource->color,
-            'year' => $this->resource->year,
-            'car_number' => $this->resource->car_number,
-            'organization_id' => $this->resource->organization_id,
+            'name' => $this->resource->name,
+            'fuel_level' => $this->resource->fuel_level,
+            'status' => $this->resource->status,
+            'vehicle_id' => $this->resource->vehicle_id,
         ];
     }
 }

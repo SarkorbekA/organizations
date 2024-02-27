@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\FuelSensorController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VehicleController;
 use App\Http\Middleware\CheckClientHasApiToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,11 +24,7 @@ use Illuminate\Support\Facades\Route;
 //});
 
 
-//Route::get('users', [\App\Http\Controllers\UserController::class, 'index']);
-//Route::get('users/{id}', [\App\Http\Controllers\UserController::class, 'show']);
-//Route::delete('users/{id}', [\App\Http\Controllers\UserController::class, 'destroy']);
-
-Route::middleware(CheckClientHasApiToken::class)->group(function () {
+Route::middleware(CheckClientHasApiToken::class)->group(callback: function () {
     //    Users Routes
     Route::post('users', [UserController::class, 'store']);
     Route::get('users', [UserController::class, 'index']);
@@ -49,6 +47,23 @@ Route::middleware(CheckClientHasApiToken::class)->group(function () {
     Route::get('organizations/{organization_id}/vehicles', [OrganizationController::class, 'getOrganizationVehicles']);
     Route::get('organizations/{organization_id}/vehicles/{vehicle_id}', [OrganizationController::class, 'getOrganizationVehicleById']);
 
+    //    Vehicles Routes
+    Route::post('vehicles', [VehicleController::class, 'store']);
+    Route::get('vehicles', [VehicleController::class, 'index']);
+    Route::get('vehicles/{id}', [VehicleController::class, 'show']);
+    Route::delete('vehicles/{id}', [VehicleController::class, 'destroy']);
+    Route::match(['put', 'patch'], 'vehicles/{id}', [VehicleController::class, 'update']);
+
+    //    Vehicle FuelSensors Routes
+    Route::get('vehicles/{vehicle_id}/fuel_sensors', [VehicleController::class, 'getVehicleFuelSensors']);
+    Route::get('vehicles/{vehicle_id}/fuel_sensors/{fuel_sensor_id}', [VehicleController::class, 'getVehicleFuelSensorsById']);
+
+    //    FuelSensor Routes
+    Route::post('fuel_sensors', [FuelSensorController::class, 'store']);
+    Route::get('fuel_sensors', [FuelSensorController::class, 'index']);
+    Route::get('fuel_sensors/{id}', [FuelSensorController::class, 'show']);
+    Route::delete('fuel_sensors/{id}', [FuelSensorController::class, 'destroy']);
+    Route::match(['put', 'patch'], 'fuel_sensors/{id}', [FuelSensorController::class, 'update']);
 });
 
 
