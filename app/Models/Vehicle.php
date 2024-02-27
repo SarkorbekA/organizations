@@ -7,10 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
+/**
+ * @property string $name
+ * @property string $color
+ * @property int $id
+ * @property int $year
+ */
 class Vehicle extends Model
 {
     use HasFactory;
 
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'model',
+        'color',
+        'year',
+    ];
 
     public function organization(): BelongsTo
     {

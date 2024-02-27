@@ -25,6 +25,7 @@ class VehicleFactory extends Factory
             'model' =>  $this->faker->word,
             'color' =>  $this->faker->colorName,
             'year' =>  $this->faker->numberBetween(1990, 2024),
+            'organization_id' =>  $this->faker->numberBetween(1, 20),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

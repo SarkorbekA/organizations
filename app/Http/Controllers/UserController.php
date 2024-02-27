@@ -122,56 +122,6 @@ class UserController extends Controller
 
         return $result;
     }
-
-    /**
-     * @param int $organization_id
-     * @return JsonResponse|AnonymousResourceCollection
-     */
-    public function getOrganizationUsers(
-        int $organization_id
-    ): JsonResponse|AnonymousResourceCollection
-    {
-        /** @var Organization|null $organization */
-        $organization = Organization::query()->find($organization_id);
-
-
-        if ($organization === null) {
-            return response()->json([
-                'message' => 'Организация не найдена!'
-            ], 400);
-        }
-
-//
-        $users = $organization->users;
-
-
-        return UserResource::collection($users);
-    }
-
-    public function getOrganizationUserById(
-        int $organization_id,
-        int $user_id,
-    ): JsonResponse|UserResource
-    {
-        /** @var Organization|null $organization */
-        $organization = Organization::query()->find($organization_id);
-
-        if ($organization === null) {
-            return response()->json([
-                'message' => 'Организация не найдена!'
-            ], 400);
-        }
-
-        $user = $organization->users()->find($user_id);
-
-        if ($user === null) {
-            return response()->json([
-                'message' => 'Пользователь не найден!'
-            ], 400);
-        }
-
-        return new UserResource($user);
-    }
 }
 
 // http://my-app.loc.uz/api/users/:user_id

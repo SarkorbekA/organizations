@@ -34,15 +34,20 @@ Route::middleware(CheckClientHasApiToken::class)->group(function () {
     Route::delete('users/{id}', [UserController::class, 'destroy']);
     Route::match(['put', 'patch'], 'users/{id}', [UserController::class, 'update']);
 
-    Route::get('organizations/{organization_id}/users', [UserController::class, 'getOrganizationUsers']);
-    Route::get('organizations/{organization_id}/users/{user_id}', [UserController::class, 'getOrganizationUserById']);
-
     //    Organizations Routes
     Route::post('organizations', [OrganizationController::class, 'store']);
     Route::get('organizations', [OrganizationController::class, 'index']);
     Route::get('organizations/{id}', [OrganizationController::class, 'show']);
     Route::delete('organizations/{id}', [OrganizationController::class, 'destroy']);
     Route::match(['put', 'patch'], 'organizations/{id}', [OrganizationController::class, 'update']);
+
+    //    Organizations Users Routes
+    Route::get('organizations/{organization_id}/users', [OrganizationController::class, 'getOrganizationUsers']);
+    Route::get('organizations/{organization_id}/users/{user_id}', [OrganizationController::class, 'getOrganizationUserById']);
+
+    //    Organizations Vehicles Routes
+    Route::get('organizations/{organization_id}/vehicles', [OrganizationController::class, 'getOrganizationVehicles']);
+    Route::get('organizations/{organization_id}/vehicles/{vehicle_id}', [OrganizationController::class, 'getOrganizationVehicleById']);
 
 });
 

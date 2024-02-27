@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * @property string $name
  * @property int $id
- * @property User[] $users
+// * @property User[] $users
  */
 class Organization extends Model
 {
