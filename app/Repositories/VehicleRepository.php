@@ -28,6 +28,18 @@ class VehicleRepository implements IVehicleRepository
         return $vehicle;
     }
 
+    public function updateVehicle(VehicleDTO $vehicleDTO, Vehicle $vehicle): Vehicle
+    {
+        $vehicle->model = $vehicleDTO->getModel();
+        $vehicle->color = $vehicleDTO->getColor();
+        $vehicle->year = $vehicleDTO->getYear();
+        $vehicle->car_number = $vehicleDTO->getCarNumber();
+        $vehicle->organization_id = $vehicleDTO->getOrganizationId();
+        $vehicle->save();
+
+        return $vehicle;
+    }
+
     public function getVehicleByCarNumber(string $carNumber): ?Vehicle
     {
         /** @var Vehicle|null $vehicle */

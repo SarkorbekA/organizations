@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\update;
 
 use App\Contracts\IVehicleRepository;
 use App\DTO\VehicleDTO;
@@ -8,7 +8,7 @@ use App\Exceptions\BusinessException;
 use App\Models\Vehicle;
 use App\Repositories\VehicleRepository;
 
-class CreateVehicleService
+class UpdateVehicleService
 {
     private IVehicleRepository $repository;
 
@@ -17,13 +17,14 @@ class CreateVehicleService
         $this->repository = new VehicleRepository();
     }
 
-    public function execute(VehicleDTO $vehicleDTO): Vehicle
+    public function execute(VehicleDTO $vehicleDTO, Vehicle $vehicle): Vehicle
     {
-        $organizationWithName = $this->repository->getVehicleByCarNumber($vehicleDTO->getCarNumber());
-        if ($organizationWithName !== null) {
-            throw new BusinessException('Транспорт с таким номером уже существует.');
-        }
+        $vehicleWithNumber = $this->repository->getVehicleByCarNumber($vehicleDTO->getCarNumber());
 
-        return $this->repository->createVehicle($vehicleDTO);
+        if ($vehicleWithNumber !== null) {
+            throw new BusinessException('Транспорт с таким номером уже существует.');
+        } else if ($vehicle->car_number !== $vehicleDTO->getCarNumber()) {
+            return $this->repository->updateVehicle($vehicleDTO, $vehicle);
+        }
     }
 }

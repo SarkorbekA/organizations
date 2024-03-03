@@ -33,7 +33,7 @@ class CheckClientHasApiToken
 //            throw new \EnsureTokenException('Forbidden!', 403);
 
             return \response()->json([
-                'message' => 'Forbidden'
+                'message' => __('messages.forbidden')
             ], Response::HTTP_FORBIDDEN);
         }
 

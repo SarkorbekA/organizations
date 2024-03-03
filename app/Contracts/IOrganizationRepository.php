@@ -12,4 +12,5 @@ interface IOrganizationRepository
     public function getOrganizationByName(string $name): ?Organization;
 
     public function createOrganization(OrganizationDTO $organizationDTO): ?Organization;
+    public function updateOrganization(OrganizationDTO $organizationDTO, Organization $organization): ?Organization;
 }

@@ -14,7 +14,7 @@ class UserSendSmsJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * Create a new job instance.
+     * create a new job instance.
      */
     public function __construct(private User $user)
     {
@@ -26,7 +26,7 @@ class UserSendSmsJob implements ShouldQueue
      */
     public function handle(): void
     {
-        sleep(10);
+        sleep(5);
         $this->user->name = '123';
         $this->user->save();
     }

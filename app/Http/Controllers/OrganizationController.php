@@ -11,11 +11,11 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\VehicleResource;
 use App\Models\Organization;
 use App\Repositories\OrganizationRepository;
-use App\Repositories\UserRepository;
-use App\Services\CreateOrganizationService;
+use App\Services\create\CreateOrganizationService;
+use App\Services\update\UpdateOrganizationService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class OrganizationController extends Controller
 {
@@ -94,19 +94,19 @@ class OrganizationController extends Controller
      * Update the specified resource in storage.
      * @param OrganizationRequest $request
      * @param Organization $organization
-     * @return OrganizationResource
+     * @return JsonResponse
      */
-    public function update(OrganizationRequest $request, int $id)
+    public function update(OrganizationRequest $request,UpdateOrganizationService $service, int $id): JsonResponse
     {
         $validated = $request->validated();
 
-        Organization::query()->find($id)->update(
-            $validated
-        );
-
         $organization = $this->repository->getOrganizationById($id);
 
-        return new OrganizationResource($organization);
+        $service->execute(OrganizationDTO::fromArray($validated), $organization);
+
+        return response()->json([
+            'message' => 'Организация обновлёна успешно!'
+        ], Response::HTTP_OK);
     }
 
     /**

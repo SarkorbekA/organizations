@@ -11,19 +11,20 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class BirthdayGreetings extends Mailable
+class ConfirmAccount extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $user;
+    public $random;
 
     /**
-     * create a new message instance.
+     * Create a new message instance.
      */
-
-    public function __construct(User $user)
+    public function __construct(User $user, int $random)
     {
         $this->user = $user;
+        $this->random = $random;
     }
 
     /**
@@ -33,7 +34,7 @@ class BirthdayGreetings extends Mailable
     {
         return new Envelope(
             from: new Address('abilkosimovsarkor@gmail.com', 'Abilkosimov Sarkor'),
-            subject: 'Birthday Greetings',
+            subject: 'Confirm Account',
         );
     }
 
@@ -43,7 +44,7 @@ class BirthdayGreetings extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email_template',
+            view: 'email_confirm',
         );
     }
 

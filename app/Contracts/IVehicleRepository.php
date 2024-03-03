@@ -12,4 +12,5 @@ interface IVehicleRepository
     public function getVehicleByCarNumber(string $carNumber): ?Vehicle;
 
     public function createVehicle(VehicleDTO $vehicleDTO): ?Vehicle;
+    public function updateVehicle(VehicleDTO $vehicleDTO, Vehicle $vehicle): ?Vehicle;
 }

@@ -12,4 +12,5 @@ interface IFuelSensorRepository
     public function getFuelSensorByName(string $name): ?FuelSensor;
 
     public function createFuelSensor(FuelSensorDTO $fuelSensorDTO): ?FuelSensor;
+    public function updateFuelSensor(FuelSensorDTO $fuelSensorDTO, FuelSensor $fuelSensor): ?FuelSensor;
 }

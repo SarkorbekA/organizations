@@ -9,9 +9,10 @@ use App\Http\Requests\FuelSensorRequest;
 use App\Http\Resources\FuelSensorResource;
 use App\Models\FuelSensor;
 use App\Repositories\FuelSensorRepository;
-use App\Services\CreateFuelSensorService;
+use App\Services\create\CreateFuelSensorService;
+use App\Services\update\UpdateFuelSensorService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class FuelSensorController extends Controller
 {
@@ -89,21 +90,20 @@ class FuelSensorController extends Controller
     /**
      * Update the specified resource in storage.
      * @param FuelSensorRequest $request
-     * @param FuelSensor $fuel_sensor
-     * @return FuelSensorResource
+     * @param FuelSensor $fuelSensor
+     * @return FuelSensorResource|JsonResponse
      */
-    public function update(FuelSensorRequest $request, int $id)
+    public function update(FuelSensorRequest $request,UpdateFuelSensorService $service , int $id): JsonResponse
     {
         $validated = $request->validated();
 
-        FuelSensor::query()->find($id)->update(
-            $validated
-        );
+        $fuelSensor = $this->repository->getFuelSensorById($id);
 
-        $fuel_sensor = $this->repository->getFuelSensorById($id);
+        $service->execute(FuelSensorDTO::fromArray($validated), $fuelSensor);
 
-        return new FuelSensorResource($fuel_sensor);
-    }
+        return response()->json([
+            'message' => 'Сенсор топлива обновлёна успешно!'
+        ], Response::HTTP_OK);    }
 
     /**
      * Remove the specified resource from storage.

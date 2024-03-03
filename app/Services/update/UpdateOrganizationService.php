@@ -1,18 +1,14 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\update;
 
 use App\Contracts\IOrganizationRepository;
 use App\DTO\OrganizationDTO;
 use App\Exceptions\BusinessException;
-use App\Http\Requests\OrganizationRequest;
-use App\Http\Resources\OrganizationResource;
-use App\Http\Resources\UserResource;
 use App\Models\Organization;
-use App\Models\User;
 use App\Repositories\OrganizationRepository;
 
-class CreateOrganizationService
+class UpdateOrganizationService
 {
     private IOrganizationRepository $repository;
 
@@ -21,13 +17,16 @@ class CreateOrganizationService
         $this->repository = new OrganizationRepository();
     }
 
-    public function execute(OrganizationDTO $organizationDTO): Organization
+    public function execute(OrganizationDTO $organizationDTO, Organization $organization): Organization
     {
         $organizationWithName = $this->repository->getOrganizationByName($organizationDTO->getName());
+//        dd($organizationWithName->name);
         if ($organizationWithName !== null) {
             throw new BusinessException('Организация с таким названием уже существует.');
+        } else if ($organization->name !== $organizationDTO->getName()) {
+//            dd($organization->name);
+//            dd($organizationDTO->getName());
+            return $this->repository->updateOrganization($organizationDTO, $organization);
         }
-
-        return $this->repository->createOrganization($organizationDTO);
     }
 }

@@ -7,15 +7,13 @@ use App\DTO\UserDTO;
 use App\Exceptions\BusinessException;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
-use App\Jobs\UserSendEmail;
 use App\Jobs\UserSendSmsJob;
-use App\Models\Organization;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use App\Services\CreateUserService;
+use App\Services\create\CreateUserService;
+use App\Services\update\UpdateUserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -54,11 +52,9 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
-//        $service = new CreateUserService();
         $user = $service->execute(UserDTO::fromArray($validated));
 
-//        UserSendEmail::dispatch($user);
-//        UserSendSmsJob::dispatch($user);
+        UserSendSmsJob::dispatch($user);
 
         return new UserResource($user);
     }
@@ -73,31 +69,34 @@ class UserController extends Controller
     {
         $user = $this->repository->getUserById($id);
 
+
         if ($user === null) {
             return response()->json([
-                'message' => 'Пользователь не найден!'
+                'message' => __('messages.user_not_found_error')
             ], 400);
         }
         return new UserResource($user);
-
     }
 
     /**
      * Update the specified resource in storage.
      * @param UserRequest $request
      * @param User $user
-     * @return UserResource
+     * @return JsonResponse
      */
-    public function update(UserRequest $request, int $id)
+    public function update(UserRequest $request, UpdateUserService $service, int $id): JsonResponse
     {
         $validated = $request->validated();
 
         $user = $this->repository->getUserById($id);
 
+       $service->execute(UserDTO::fromArray($validated), $user);
 
-        $user->update($validated);
+//        return new UserResource($user);
 
-        return new UserResource($user);
+        return response()->json([
+            'message' => 'Пользователь обновлён успешно!'
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -111,12 +110,12 @@ class UserController extends Controller
 
         if ($user === null) {
             $result = response()->json([
-                'message' => 'Такой записи не существует'
+                'message' => __('messages.record_not_found')
             ], 400);
         } else {
             User::query()->find($id)->delete();
             $result = response()->json([
-                'message' => 'Запись была успешна удалена'
+                'message' => __('messages.record_deletion_successful')
             ]);
         }
 

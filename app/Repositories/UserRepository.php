@@ -23,6 +23,19 @@ class UserRepository implements IUserRepository
         $user->surname = $userDTO->getSurname();
         $user->age = $userDTO->getAge();
         $user->email = $userDTO->getEmail();
+        $user->password = $userDTO->getPassword();
+        $user->save();
+
+        return $user;
+    }
+
+    public function updateUser(UserDTO $userDTO, User $user): User
+    {
+        $user->name = $userDTO->getName();
+        $user->surname = $userDTO->getSurname();
+        $user->age = $userDTO->getAge();
+        $user->email = $userDTO->getEmail();
+        $user->password = $userDTO->getPassword();
         $user->save();
 
         return $user;

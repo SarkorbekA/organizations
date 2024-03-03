@@ -10,10 +10,11 @@ use App\Http\Resources\FuelSensorResource;
 use App\Http\Resources\VehicleResource;
 use App\Models\Vehicle;
 use App\Repositories\VehicleRepository;
-use App\Services\CreateVehicleService;
+use App\Services\create\CreateVehicleService;
+use App\Services\update\UpdateVehicleService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class VehicleController extends Controller
 {
@@ -92,19 +93,19 @@ class VehicleController extends Controller
      * Update the specified resource in storage.
      * @param VehicleRequest $request
      * @param Vehicle $vehicle
-     * @return VehicleResource
+     * @return VehicleResource|JsonResponse
      */
-    public function update(VehicleRequest $request, int $id)
+    public function update(VehicleRequest $request,UpdateVehicleService $service ,int $id): JsonResponse
     {
         $validated = $request->validated();
 
-        Vehicle::query()->find($id)->update(
-            $validated
-        );
-
         $vehicle = $this->repository->getVehicleById($id);
 
-        return new VehicleResource($vehicle);
+        $service->execute(VehicleDTO::fromArray($validated), $vehicle);
+
+        return response()->json([
+            'message' => 'Транспорт обновлён успешно!'
+        ], Response::HTTP_OK);
     }
 
     /**

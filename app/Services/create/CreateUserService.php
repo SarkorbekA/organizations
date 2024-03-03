@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\create;
 
 use App\Contracts\IUserRepository;
 use App\DTO\UserDTO;

@@ -28,6 +28,15 @@ class OrganizationRepository implements IOrganizationRepository
         return $organization;
     }
 
+    public function updateOrganization(OrganizationDTO $organizationDTO, Organization $organization): ?Organization
+    {
+        $organization->name = $organizationDTO->getName();
+        $organization->country = $organizationDTO->getCountry();
+        $organization->address = $organizationDTO->getAddress();
+        $organization->save();
+
+        return $organization;
+    }
     public function getOrganizationByName(string $name): ?Organization
     {
         /** @var Organization|null $organization */

@@ -10,28 +10,38 @@ class FuelSensorRepository implements IFuelSensorRepository
 {
     public function getFuelSensorById(int $fuelSensorId): ?FuelSensor
     {
-        /** @var FuelSensor|null $fuel_sensor */
-        $fuel_sensor = FuelSensor::query()->find($fuelSensorId);
-        return $fuel_sensor;
+        /** @var FuelSensor|null $fuelSensor */
+        $fuelSensor = FuelSensor::query()->find($fuelSensorId);
+        return $fuelSensor;
     }
 
     public function createFuelSensor(FuelSensorDTO $fuelSensorDTO): FuelSensor
     {
-        $fuel_sensor = new FuelSensor();
-        $fuel_sensor->name = $fuelSensorDTO->getName();
-        $fuel_sensor->fuel_level = $fuelSensorDTO->getFuelLevel();
-        $fuel_sensor->status = $fuelSensorDTO->getStatus();
-        $fuel_sensor->vehicle_id = $fuelSensorDTO->getVehicleId();
-        $fuel_sensor->save();
+        $fuelSensor = new FuelSensor();
+        $fuelSensor->name = $fuelSensorDTO->getName();
+        $fuelSensor->fuel_level = $fuelSensorDTO->getFuelLevel();
+        $fuelSensor->status = $fuelSensorDTO->getStatus();
+        $fuelSensor->vehicle_id = $fuelSensorDTO->getVehicleId();
+        $fuelSensor->save();
 
-        return $fuel_sensor;
+        return $fuelSensor;
+    }
+    public function updateFuelSensor(FuelSensorDTO $fuelSensorDTO, FuelSensor $fuelSensor): FuelSensor
+    {
+        $fuelSensor->name = $fuelSensorDTO->getName();
+        $fuelSensor->fuel_level = $fuelSensorDTO->getFuelLevel();
+        $fuelSensor->status = $fuelSensorDTO->getStatus();
+        $fuelSensor->vehicle_id = $fuelSensorDTO->getVehicleId();
+        $fuelSensor->save();
+
+        return $fuelSensor;
     }
 
     public function getFuelSensorByName(string $name): ?FuelSensor
     {
-        /** @var FuelSensor|null $fuel_sensor */
-        $fuel_sensor = FuelSensor::query()->where('name', $name)->first();
+        /** @var FuelSensor|null $fuelSensor */
+        $fuelSensor = FuelSensor::query()->where('name', $name)->first();
 
-        return $fuel_sensor;
+        return $fuelSensor;
     }
 }
